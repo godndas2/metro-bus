@@ -31,5 +31,7 @@ public class Bus {
     @OneToMany(mappedBy = "buses")
     private List<Agency> agencies = new ArrayList<>();
 
-//    private Trip trip; TODO 관계 어떻게 해야할지?
+    @OneToMany(mappedBy = "buses")
+    private List<Trip> trips = new ArrayList<>();
+
 }

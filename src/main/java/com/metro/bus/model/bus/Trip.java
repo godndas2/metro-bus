@@ -5,10 +5,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -18,6 +17,7 @@ import javax.persistence.Id;
 public class Trip {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "trip_id")
     private String id;
 
     private int fare;
@@ -30,10 +30,15 @@ public class Trip {
     // Relation
     private Stop destStop;
 
-    // Relation
-    private Bus bus;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tripSchedule_id")
+    private TripSchedule tripSchedule;
 
-    // Relation
-    private Agency agency;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "bus_id")
+    private Bus buses;
+
+    @OneToMany(mappedBy = "trip")
+    private List<Agency> agencies = new ArrayList<>();
 
 }

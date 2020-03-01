@@ -24,10 +24,10 @@ public class Ticket {
 
     private String journeyDate;
 
-    // Relation
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tripSchedule_id")
     private TripSchedule tripSchedule;
 
-    // Relation
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;

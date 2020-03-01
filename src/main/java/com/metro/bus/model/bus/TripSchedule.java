@@ -5,10 +5,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -19,13 +17,15 @@ import java.util.List;
 public class TripSchedule {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "tripSchedule_id")
     private String id;
 
-    // Relation
-    private Trip tripDetail;
+    @OneToMany(mappedBy = "tripSchedule")
+    private List<Trip> trips = new ArrayList<>();
 
     // Lazy
-    private List<Ticket> ticketsSold;
+    @OneToMany(mappedBy = "tripSchedule")
+    private List<Ticket> tickets = new ArrayList<>();
 
     private String tripDate;
 
