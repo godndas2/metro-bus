@@ -18,7 +18,7 @@ public class Bus {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "bus_id")
-    private String id;
+    private Long id;
 
     @Column(unique = true)
     private String code;
