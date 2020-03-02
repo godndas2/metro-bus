@@ -34,7 +34,7 @@ public class Agency {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bus_id")
-    private Set<Bus> buses;
+    private Bus buses;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "trip_id")

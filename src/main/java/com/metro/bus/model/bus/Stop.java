@@ -6,6 +6,8 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -23,4 +25,7 @@ public class Stop {
     private String name;
 
     private String detail;
+
+//    @OneToMany(mappedBy = "tripSchedule")
+//    private List<Trip> trips = new ArrayList<>();
 }

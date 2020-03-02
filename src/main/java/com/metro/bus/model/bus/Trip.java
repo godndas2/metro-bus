@@ -25,10 +25,14 @@ public class Trip {
     private int journeyTime;
 
     // Relation
-    private Stop sourceStop;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "trip_id")
+//    private Stop sourceStop;
 
     // Relation
-    private Stop destStop;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "trip_id")
+//    private Stop destStop;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tripSchedule_id")
