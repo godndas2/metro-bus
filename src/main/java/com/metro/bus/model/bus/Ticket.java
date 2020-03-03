@@ -8,7 +8,7 @@ import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 
-@Entity
+//@Entity
 @Getter
 @Setter
 @NoArgsConstructor

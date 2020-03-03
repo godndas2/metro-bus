@@ -2,7 +2,6 @@ package com.metro.bus.model.user;
 
 import com.metro.bus.model.bus.Agency;
 import com.metro.bus.model.bus.Ticket;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,7 +18,7 @@ import java.util.List;
 @Accessors(chain = true)
 public class User {
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long id;
 
@@ -34,15 +33,14 @@ public class User {
 
     private String mobileNumber;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    private List<String> roles = new ArrayList<>();
-//    private Role role;
+    @OneToMany(mappedBy="users")
+    private List<Role> roles = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
     private List<Agency> agencies = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
-    private List<Ticket> tickets = new ArrayList<>();
+//    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER)
+//    private List<Ticket> tickets = new ArrayList<>();
 
     public String getFullName() {
         return firstName != null ? firstName.concat(" ").concat(lastName) : "";

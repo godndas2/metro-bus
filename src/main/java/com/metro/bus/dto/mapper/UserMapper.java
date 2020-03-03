@@ -11,13 +11,14 @@ import java.util.stream.Collectors;
 
 @Component
 public class UserMapper {
+
     public static UserDto toUserDto(User user) {
         return new UserDto()
                 .setEmail(user.getEmail())
                 .setFirstName(user.getFirstName())
                 .setLastName(user.getLastName())
                 .setMobileNumber(user.getMobileNumber())
-                .setRoles(new HashSet<RoleDto>(user
+                .setRoles(new HashSet<>(user
                         .getRoles()
                         .stream()
                         .map(role -> new ModelMapper().map(role, RoleDto.class))

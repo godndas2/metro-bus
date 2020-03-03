@@ -16,7 +16,7 @@ import java.util.List;
 @Accessors(chain = true)
 public class Bus {
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "bus_id")
     private Long id;
 
@@ -31,7 +31,7 @@ public class Bus {
     @OneToMany(mappedBy = "buses")
     private List<Agency> agencies = new ArrayList<>();
 
-    @OneToMany(mappedBy = "buses")
-    private List<Trip> trips = new ArrayList<>();
+//    @OneToMany(mappedBy = "buses")
+//    private List<Trip> trips = new ArrayList<>();
 
 }

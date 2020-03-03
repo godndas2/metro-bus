@@ -1,15 +1,26 @@
 package com.metro.bus.model.user;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 
-@RequiredArgsConstructor
+import javax.persistence.*;
+
+@Entity
 @Getter
-public enum Role {
+@Setter
+@NoArgsConstructor
+@Accessors(chain = true)
+public class Role {
 
-    PASSENGER("ROLE_PASSENGER", "승객"),
-    ADMIN("ROLE_ADMIN", "관리자");
+    @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name = "role_id")
+    private Long id;
 
-    private final String key;
-    private final String title;
+    @Column(unique = true)
+    private String role;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User users;
 }
