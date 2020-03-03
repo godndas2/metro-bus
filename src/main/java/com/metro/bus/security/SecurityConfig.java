@@ -110,11 +110,30 @@ public class SecurityConfig {
         @Override
         public void configure(WebSecurity web) {
             web.ignoring().antMatchers(
-                    "/resources/**", "/static/**", "/css/**", "/js/**", "/images/**",
-                    "/resources/static/**", "/css/**", "/js/**", "/img/**", "/fonts/**",
-                    "/images/**", "/scss/**", "/vendor/**", "/favicon.ico", "/auth/**", "/favicon.png",
-                    "/v2/api-docs", "/configuration/ui", "/configuration/security", "/swagger-ui.html",
-                    "/webjars/**", "/swagger-resources/**", "/h2-console", "/actuator",
+                    "/resources/**",
+                    "/static/**",
+                    "/css/**",
+                    "/js/**",
+                    "/images/**",
+                    "/resources/static/**",
+                    "/css/**",
+                    "/js/**",
+                    "/img/**",
+                    "/fonts/**",
+                    "/images/**",
+                    "/scss/**",
+                    "/vendor/**",
+                    "/favicon.ico",
+                    "/auth/**",
+                    "/favicon.png",
+                    "/v2/api-docs",
+                    "/configuration/ui",
+                    "/configuration/security",
+                    "/swagger-ui.html",
+                    "/webjars/**",
+                    "/swagger-resources/**",
+                    "/h2-console",
+                    "/actuator",
                     "/actuator/**");
         }
     }

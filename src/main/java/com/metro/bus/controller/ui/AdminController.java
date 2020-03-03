@@ -20,6 +20,11 @@ public class AdminController {
 
     private final UserService userService;
 
+    @GetMapping(value = "/home")
+    public String home() {
+        return "redirect:dashboard";
+    }
+
     @GetMapping(value = {"/", "/login"})
     public ModelAndView login() {
         return new ModelAndView("login");

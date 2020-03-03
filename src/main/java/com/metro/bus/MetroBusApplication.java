@@ -10,8 +10,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 
 @SpringBootApplication
 public class MetroBusApplication {
@@ -48,7 +47,7 @@ public class MetroBusApplication {
                         .setFirstName("John")
                         .setLastName("Doe")
                         .setMobileNumber("9425094250")
-                        .setRoles(Arrays.asList(userRole));
+                        .setRoles(Collections.singletonList(userRole));
                 userRepository.save(admin);
             }
         };
