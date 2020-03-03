@@ -18,6 +18,7 @@
 - Filter search results with a date option  
 - Book a ticket for a given trip schedule  
 <hr>
+
 - http://localhost:8080/swagger-ui.html  
 - http://localhost:8080/signup  
 - http://localhost:8080/signin  
