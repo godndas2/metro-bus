@@ -44,11 +44,11 @@ public class MetroBusApplication {
             if (admin == null) {
                 admin = new User()
                         .setEmail("admin.agencya@gmail.com")
-                        .setPassword("$2a$10$7PtcjEnWb/ZkgyXyxY1/Iei2dGgGQUbqIIll/dt.qJ8l8nQBWMbYO") // "123456"
+                        .setPassword("{bcrypt}$2a$10$7PtcjEnWb/ZkgyXyxY1/Iei2dGgGQUbqIIll/dt.qJ8l8nQBWMbYO") // "123456"
                         .setFirstName("John")
                         .setLastName("Doe")
                         .setMobileNumber("9425094250")
-                        .setRoles(new ArrayList<>(Arrays.asList(adminRole)));
+                        .setRoles(Arrays.asList(userRole));
                 userRepository.save(admin);
             }
         };

@@ -53,7 +53,6 @@ public class UserService {
         throw exception(USER, DUPLICATE_ENTITY, userDto.getEmail());
     }
 
-    // TODO Sign in Issue
     public UserDto findUserByEmail(String email) {
         Optional<User> user = Optional.ofNullable(userRepository.findByEmail(email));
         if (user.isPresent()) {

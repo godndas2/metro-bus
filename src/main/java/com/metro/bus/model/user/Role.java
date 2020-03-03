@@ -6,6 +6,8 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -21,6 +23,6 @@ public class Role {
     @Column(unique = true)
     private String role;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private User users;
+    @ManyToMany(mappedBy = "roles")
+    private List<User> users = new ArrayList<>();
 }

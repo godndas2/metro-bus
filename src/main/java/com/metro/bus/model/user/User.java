@@ -33,7 +33,11 @@ public class User {
 
     private String mobileNumber;
 
-    @OneToMany(mappedBy="users")
+    @ManyToMany
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(name = "role_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
     private List<Role> roles = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
