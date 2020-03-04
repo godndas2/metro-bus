@@ -1,9 +1,13 @@
 package com.metro.bus;
 
+import com.metro.bus.model.bus.Agency;
+import com.metro.bus.model.bus.Bus;
 import com.metro.bus.model.bus.Stop;
 import com.metro.bus.model.user.Role;
 import com.metro.bus.model.user.User;
 import com.metro.bus.model.user.UserRoles;
+import com.metro.bus.repository.bus.AgencyRepository;
+import com.metro.bus.repository.bus.BusRepository;
 import com.metro.bus.repository.bus.StopRepository;
 import com.metro.bus.repository.user.RoleRepository;
 import com.metro.bus.repository.user.UserRepository;
@@ -13,6 +17,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 @SpringBootApplication
 public class MetroBusApplication {
@@ -24,7 +30,10 @@ public class MetroBusApplication {
     @Bean
     CommandLineRunner init(RoleRepository roleRepository,
                            UserRepository userRepository,
-                           StopRepository stopRepository) {
+                           StopRepository stopRepository,
+//                           TripRepository tripRepository,
+                           BusRepository busRepository,
+                           AgencyRepository agencyRepository) {
         return args -> {
             //Create Admin and Passenger Roles
             Role adminRole = roleRepository.findByRole("ADMIN");
@@ -89,6 +98,27 @@ public class MetroBusApplication {
                         .setDetail("Canberra")
                         .setCode("STPD");
                 stopRepository.save(stopD);
+            }
+
+            //Create an Agency
+            Agency agencyA = agencyRepository.findByCode("AGENCYA");
+            if (agencyA == null) {
+                agencyA = new Agency()
+                        .setName("HALFDEV Agency")
+                        .setCode("AGENCYA")
+                        .setDetails("Reaching desitnations with ease")
+                        .setUser(admin);
+                agencyRepository.save(agencyA);
+            }
+
+            //Create a bus
+            Bus busA = busRepository.findByCode("AGENCYA-1");
+            if (busA == null) {
+                busA = new Bus()
+                        .setCode("AGENCYA-1")
+                        .setAgencies(Collections.singletonList(agencyA)) //
+                        .setCapacity(60);
+                busRepository.save(busA);
             }
         };
     }

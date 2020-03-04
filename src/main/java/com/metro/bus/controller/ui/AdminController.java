@@ -44,7 +44,8 @@ public class AdminController {
     }
 
     @PostMapping(value = "/signup")
-    public ModelAndView createNewAdmin(@Valid @ModelAttribute("adminSignupFormData") AdminSignupFormCommand adminSignupFormCommand, BindingResult bindingResult) {
+    public ModelAndView createNewAdmin(@Valid @ModelAttribute("adminSignupFormData") AdminSignupFormCommand adminSignupFormCommand,
+                                       BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView("signup");
         if (bindingResult.hasErrors()) {
             return modelAndView;

@@ -33,6 +33,7 @@ public class User {
 
     private String mobileNumber;
 
+    // TODO failed to lazily initialize a collection of role: com.metro.bus.model.user.User.roles, could not initialize proxy - no Session
     @ManyToMany
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "role_id"),

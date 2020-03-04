@@ -17,6 +17,7 @@ public class Agency {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "agency_id")
     private Long id;
 
     @Column(unique = true)
@@ -35,7 +36,7 @@ public class Agency {
     @JoinColumn(name = "bus_id")
     private Bus buses;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "trip_id")
-//    private Trip trip;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "trip_id")
+    private Trip trip;
 }
