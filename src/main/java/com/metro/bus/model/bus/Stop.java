@@ -15,7 +15,7 @@ import javax.persistence.*;
 public class Stop {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
-    private String id;
+    private Long id;
 
     @Column(unique = true)
     private String code;
