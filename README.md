@@ -22,3 +22,4 @@
 - http://localhost:8080/swagger-ui.html  
 - http://localhost:8080/signup  
 - http://localhost:8080/signin  
+- http://localhost:8080/dashboard
