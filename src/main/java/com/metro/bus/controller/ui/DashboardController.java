@@ -26,15 +26,15 @@ public class DashboardController {
     private final UserService userService;
     private final BusReservationService busReservationService;
 
-//    @GetMapping(value = "/dashboard")
-//    public ModelAndView dashboard() {
-//        ModelAndView modelAndView = new ModelAndView("dashboard");
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        UserDto userDto = userService.findUserByEmail(auth.getName());
-//        modelAndView.addObject("currentUser", userDto);
-//        modelAndView.addObject("userName", userDto.getFullName());
-//        return modelAndView;
-//    }
+    @GetMapping(value = "/dashboard")
+    public ModelAndView dashboard() {
+        ModelAndView modelAndView = new ModelAndView("dashboard");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDto userDto = userService.findUserByEmail(auth.getName());
+        modelAndView.addObject("currentUser", userDto);
+        modelAndView.addObject("userName", userDto.getFullName());
+        return modelAndView;
+    }
 
     @GetMapping(value = "/agency")
     public ModelAndView agencyDetails() {
@@ -83,7 +83,8 @@ public class DashboardController {
     }
 
     @PostMapping(value = "/bus")
-    public ModelAndView addNewBus(@Valid @ModelAttribute("busFormData") BusFormCommand busFormCommand, BindingResult bindingResult) {
+    public ModelAndView addNewBus(@Valid @ModelAttribute("busFormData") BusFormCommand busFormCommand,
+                                  BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView("bus");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDto userDto = userService.findUserByEmail(auth.getName());

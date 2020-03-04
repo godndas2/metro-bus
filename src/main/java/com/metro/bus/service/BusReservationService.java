@@ -8,8 +8,10 @@ import com.metro.bus.exception.BUSException;
 import com.metro.bus.exception.EntityType;
 import com.metro.bus.exception.ExceptionType;
 import com.metro.bus.model.bus.Agency;
+import com.metro.bus.model.bus.Bus;
 import com.metro.bus.model.user.User;
 import com.metro.bus.repository.bus.AgencyRepository;
+import com.metro.bus.repository.bus.BusRepository;
 import com.metro.bus.repository.bus.StopRepository;
 import com.metro.bus.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,13 +19,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.metro.bus.exception.EntityType.AGENCY;
-import static com.metro.bus.exception.EntityType.USER;
+import static com.metro.bus.exception.EntityType.*;
+import static com.metro.bus.exception.ExceptionType.DUPLICATE_ENTITY;
 import static com.metro.bus.exception.ExceptionType.ENTITY_NOT_FOUND;
 
 @RequiredArgsConstructor
@@ -33,6 +33,7 @@ public class BusReservationService {
     private final StopRepository stopRepository;
     private final UserRepository userRepository;
     private final AgencyRepository agencyRepository;
+    private final BusRepository busRepository;
     private final ModelMapper modelMapper;
 
     public Set<StopDto> getAllStops() {
@@ -47,7 +48,32 @@ public class BusReservationService {
     * */
     @Transactional
     public AgencyDto updateAgency(AgencyDto agencyDto, BusDto busDto) {
-        return null;
+        Agency agency = getAgency(agencyDto.getCode());
+        if (agency != null) {
+            if (busDto != null) {
+                Optional<Bus> bus = Optional.ofNullable(busRepository.findByCodeAndAgencies(busDto.getCode(), agency));
+                if (!bus.isPresent()) {
+                    Bus busModel = new Bus()
+                            .setAgencies(Collections.singletonList(agency))
+                            .setCode(busDto.getCode())
+                            .setCapacity(busDto.getCapacity())
+                            .setMake(busDto.getMake());
+                    busRepository.save(busModel);
+                    if (agency.getBuses() == null) {
+//                        agency.setBuses(new HashSet());
+                    }
+//                    agency.getBuses().add(busModel);
+                    return modelMapper.map(agencyRepository.save(agency), AgencyDto.class);
+                }
+                throw exceptionWithId(BUS, DUPLICATE_ENTITY, "2", busDto.getCode(), agencyDto.getCode());
+            } else {
+                // update agency details case
+                agency.setName(agencyDto.getName())
+                       .setDetails(agencyDto.getDetails());
+                return modelMapper.map(agencyRepository.save(agency), AgencyDto.class);
+            }
+        }
+        throw exceptionWithId(AGENCY, ENTITY_NOT_FOUND, "2", agencyDto.getOwner().getEmail());
     }
 
     private User getUser(String email) {
