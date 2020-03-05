@@ -2,8 +2,11 @@ package com.metro.bus.controller.ui;
 
 import com.metro.bus.controller.command.AgencyFormCommand;
 import com.metro.bus.controller.command.BusFormCommand;
+import com.metro.bus.controller.command.TripFormCommand;
 import com.metro.bus.dto.model.bus.AgencyDto;
 import com.metro.bus.dto.model.bus.BusDto;
+import com.metro.bus.dto.model.bus.StopDto;
+import com.metro.bus.dto.model.bus.TripDto;
 import com.metro.bus.dto.model.user.UserDto;
 import com.metro.bus.service.BusReservationService;
 import com.metro.bus.service.UserService;
@@ -18,6 +21,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.Set;
 
 @RequiredArgsConstructor
 @Controller
@@ -102,6 +107,59 @@ public class DashboardController {
                 modelAndView.addObject("busFormData", new BusFormCommand());
             } catch (Exception ex) {
                 bindingResult.rejectValue("code", "error.busFormCommand", ex.getMessage());
+            }
+        }
+        return modelAndView;
+    }
+
+    @GetMapping(value = "/trip")
+    public ModelAndView tripDetails() {
+        ModelAndView modelAndView = new ModelAndView("trip");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDto userDto = userService.findUserByEmail(auth.getName());
+        AgencyDto agencyDto = busReservationService.getAgency(userDto);
+        Set<StopDto> stops = busReservationService.getAllStops();
+        List<TripDto> trips = busReservationService.getAgencyTrips(agencyDto.getCode());
+        modelAndView.addObject("agency", agencyDto);
+        modelAndView.addObject("stops", stops);
+        modelAndView.addObject("trips", trips);
+        modelAndView.addObject("tripFormData", new TripFormCommand());
+        modelAndView.addObject("userName", userDto.getFullName());
+        return modelAndView;
+    }
+
+    @PostMapping(value = "/trip")
+    public ModelAndView addNewTrip(@Valid @ModelAttribute("tripFormData") TripFormCommand tripFormCommand,
+                                   BindingResult bindingResult) {
+        ModelAndView modelAndView = new ModelAndView("trip");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDto userDto = userService.findUserByEmail(auth.getName());
+        AgencyDto agencyDto = busReservationService.getAgency(userDto);
+        Set<StopDto> stops = busReservationService.getAllStops();
+        List<TripDto> trips = busReservationService.getAgencyTrips(agencyDto.getCode());
+
+        modelAndView.addObject("stops", stops);
+        modelAndView.addObject("agency", agencyDto);
+        modelAndView.addObject("userName", userDto.getFullName());
+        modelAndView.addObject("trips", trips);
+
+        if (!bindingResult.hasErrors()) {
+            try {
+                TripDto tripDto = new TripDto()
+//                        .setSourceStopCode(tripFormCommand.getSourceStop())
+//                        .setDestinationStopCode(tripFormCommand.getDestinationStop())
+                        .setStop(tripFormCommand.getStop()) //
+                        .setBusCode(tripFormCommand.getBusCode())
+                        .setJourneyTime(tripFormCommand.getTripDuration())
+                        .setFare(tripFormCommand.getTripFare())
+                        .setAgencyCode(agencyDto.getCode());
+                busReservationService.addTrip(tripDto);
+
+                trips = busReservationService.getAgencyTrips(agencyDto.getCode());
+                modelAndView.addObject("trips", trips);
+                modelAndView.addObject("tripFormData", new TripFormCommand());
+            } catch (Exception ex) {
+                bindingResult.rejectValue("sourceStop", "error.tripFormData", ex.getMessage());
             }
         }
         return modelAndView;

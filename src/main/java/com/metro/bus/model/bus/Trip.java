@@ -31,6 +31,9 @@ public class Trip {
 //    @JoinColumn(name = "trip_id")
 //    private Stop destStop;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Stop stop;
+
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "tripSchedule_id")
 //    private TripSchedule tripSchedule;

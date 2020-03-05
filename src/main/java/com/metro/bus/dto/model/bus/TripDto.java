@@ -2,6 +2,7 @@ package com.metro.bus.dto.model.bus;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.metro.bus.model.bus.Stop;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,13 +24,11 @@ public class TripDto {
 
     private int journeyTime;
 
-    private String sourceStopCode;
-
-    private String sourceStopName;
-
-    private String destinationStopCode;
-
-    private String destinationStopName;
+    private Stop stop;
+//    private String sourceStopCode;
+//    private String sourceStopName;
+//    private String destinationStopCode;
+//    private String destinationStopName;
 
     private String busCode;
 

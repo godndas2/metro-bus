@@ -1,6 +1,7 @@
 package com.metro.bus.model.bus;
 
 import com.metro.bus.model.user.User;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,8 +9,9 @@ import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Set;
 
-@Entity
+@Entity(name = "AGENCY")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -33,12 +35,11 @@ public class Agency {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "bus_id")
-    private Bus buses;
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Bus.class)
+    @JoinColumn(name = "bus_id", referencedColumnName = "bus_id")
+    private Set<Bus> buses;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "trip_id")
     private Trip trip;
-
 }

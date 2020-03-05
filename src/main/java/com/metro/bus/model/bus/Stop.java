@@ -16,7 +16,7 @@ import java.util.List;
 @Accessors(chain = true)
 public class Stop {
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(unique = true)
@@ -26,6 +26,6 @@ public class Stop {
 
     private String detail;
 
-//    @OneToMany(mappedBy = "tripSchedule")
-//    private List<Trip> trips = new ArrayList<>();
+    @OneToMany(mappedBy = "stop")
+    private List<Trip> trips = new ArrayList<>();
 }
