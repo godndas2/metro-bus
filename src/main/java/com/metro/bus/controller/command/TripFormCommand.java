@@ -17,7 +17,7 @@ public class TripFormCommand {
     private String destinationStop;
 
     @NotBlank
-    private String busCode = "AAA";
+    private String busCode;
 
     private Stop stop;
 

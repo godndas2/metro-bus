@@ -1,8 +1,6 @@
 package com.metro.bus.controller.ui;
 
-import com.metro.bus.controller.command.AgencyFormCommand;
-import com.metro.bus.controller.command.BusFormCommand;
-import com.metro.bus.controller.command.TripFormCommand;
+import com.metro.bus.controller.command.*;
 import com.metro.bus.dto.model.bus.AgencyDto;
 import com.metro.bus.dto.model.bus.BusDto;
 import com.metro.bus.dto.model.bus.StopDto;
@@ -161,6 +159,46 @@ public class DashboardController {
             } catch (Exception ex) {
                 bindingResult.rejectValue("sourceStop", "error.tripFormData", ex.getMessage());
             }
+        }
+        return modelAndView;
+    }
+
+    @GetMapping(value = "/profile")
+    public ModelAndView getUserProfile() {
+        ModelAndView modelAndView = new ModelAndView("profile");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDto userDto = userService.findUserByEmail(auth.getName());
+        ProfileFormCommand profileFormCommand = new ProfileFormCommand()
+                .setFirstName(userDto.getFirstName())
+                .setLastName(userDto.getLastName())
+                .setMobileNumber(userDto.getMobileNumber());
+
+        PasswordFormCommand passwordFormCommand = new PasswordFormCommand()
+                .setEmail(userDto.getEmail())
+                .setPassword(userDto.getPassword());
+
+        modelAndView.addObject("profileForm", profileFormCommand);
+        modelAndView.addObject("passwordForm", passwordFormCommand);
+        modelAndView.addObject("userName", userDto.getFullName());
+        return modelAndView;
+    }
+
+    @PostMapping(value = "/profile")
+    public ModelAndView updateProfile(@Valid @ModelAttribute("profileForm") ProfileFormCommand profileFormCommand, BindingResult bindingResult) {
+        ModelAndView modelAndView = new ModelAndView("profile");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDto userDto = userService.findUserByEmail(auth.getName());
+        PasswordFormCommand passwordFormCommand = new PasswordFormCommand()
+                .setEmail(userDto.getEmail())
+                .setPassword(userDto.getPassword());
+        modelAndView.addObject("passwordForm", passwordFormCommand);
+        modelAndView.addObject("userName", userDto.getFullName());
+        if (!bindingResult.hasErrors()) {
+            userDto.setFirstName(profileFormCommand.getFirstName())
+                    .setLastName(profileFormCommand.getLastName())
+                    .setMobileNumber(profileFormCommand.getMobileNumber());
+            userService.updateProfile(userDto);
+            modelAndView.addObject("userName", userDto.getFullName());
         }
         return modelAndView;
     }

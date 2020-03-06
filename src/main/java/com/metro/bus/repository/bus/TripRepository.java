@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface TripRepository extends JpaRepository<Trip, Long> {
-//    Trip findByStopAndBuses(Stop way, Bus bus);
+    Trip findByStopAndBuses(Stop way, Bus bus);
 //    List<Trip> findAllBySourceStopAndDestStop(Stop source, Stop destination);
     List<Trip> findByAgencies(Agency agency);
 

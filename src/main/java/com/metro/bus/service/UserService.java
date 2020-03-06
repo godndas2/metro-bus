@@ -63,6 +63,22 @@ public class UserService {
         throw exception(USER, ENTITY_NOT_FOUND, email);
     }
 
+    @Transactional
+    public UserDto updateProfile(UserDto userDto) {
+        Optional<User> user = Optional.ofNullable(userRepository.findByEmail(userDto.getEmail()));
+
+        if (user.isPresent()) {
+            User userModel = user.get();
+            userModel.setFirstName(userDto.getFirstName())
+                    .setLastName(userDto.getLastName())
+                    .setMobileNumber(userDto.getMobileNumber());
+            return UserMapper.toUserDto(userRepository.save(userModel));
+        }
+        throw exception(USER, ENTITY_NOT_FOUND, userDto.getEmail());
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     private RuntimeException exception(EntityType entityType, ExceptionType exceptionType, String... args) {
         return BUSException.throwException(entityType, exceptionType, args);
     }
