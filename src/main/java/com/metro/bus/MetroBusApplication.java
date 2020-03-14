@@ -113,22 +113,23 @@ public class MetroBusApplication {
                 agencyRepository.save(agencyA);
             }
 
-            //Create a bus TODO Issue
-//            Bus busA = busRepository.findByCode("AGENCYA-1");
-//            if (busA == null) {
-//                busA = new Bus()
-//                        .setCode("AGENCYA-1")
-//                        .setAgencies(Collections.singletonList(agencyA)) //
-//                        .setCapacity(60);
-//                busRepository.save(busA);
-//            }
-//
-//            if (agencyA.getBuses() == null) {
-//                Set<Bus> buses = new HashSet<>();
-//                agencyA.setBuses(buses);
-//                agencyA.getBuses().add(busA);
-//                agencyRepository.save(agencyA);
-//            }
+            //Create a bus
+            Bus busA = busRepository.findByCode("AGENCYA-1");
+            if (busA == null) {
+                busA = new Bus()
+                        .setCode("AGENCYA-1")
+                        .setMake("SKY-BUS")
+                        .setAgencies(Collections.singletonList(agencyA)) //
+                        .setCapacity(60);
+                busRepository.save(busA);
+            }
+            if (agencyA.getBuses() == null) {
+                Set<Bus> buses = new HashSet<>();
+                agencyA.setBuses(buses);
+                agencyA.getBuses().add(busA);
+                // TODO Can not set java.lang.Long field com.metro.bus.model.bus.Bus.id to java.util.HashSet
+                agencyRepository.save(agencyA);
+            }
 
             //Create a Trip
             Bus bus = busRepository.findByCode("AGGGGGTEST");
